@@ -1,7 +1,9 @@
-﻿using UnityEngine;
+﻿using Kkachi.Extensions;
+using System.Collections.Generic;
+using TMPro;
+using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-using TMPro;
 
 
 public class MCQManager : MonoBehaviour
@@ -12,7 +14,7 @@ public class MCQManager : MonoBehaviour
 
         [Header("")]
         [SerializeField] private TextMeshProUGUI question;
-        [SerializeField] private MCQButton buttonPrefab;
+        [SerializeField] private List<MCQButton> buttons = new List<MCQButton>();
 
         //-- Answer Button layout
         [SerializeField] private VerticalLayoutGroup list;
@@ -34,19 +36,14 @@ public class MCQManager : MonoBehaviour
         question.text = thisPuzzle.Question;
 
         //-- Instantiate button for correct answer 
-        var correctButton = Instantiate(buttonPrefab, list.transform);
-        correctButton.name = thisPuzzle.CorrectAnswer;
-        correctButton.TextObject.text = thisPuzzle.CorrectAnswer;
-        correctButton.CorrectAnswer = true;
+        var correctButton = buttons.NextFromPool();
+        correctButton.Set(thisPuzzle.CorrectAnswer, true);
 
         //-- Instantiate buttons for incorrect answers
         foreach (var answer in thisPuzzle.IncorrectOptions)
         {
-            var instance = Instantiate(buttonPrefab, list.transform);
-
-            instance.name = answer;
-            instance.TextObject.text = answer;
-            instance.CorrectAnswer = false;
+            var instance = buttons.NextFromPool();
+            instance.Set(answer, false);
         }
 
         //-- Space the buttons in the LayoutGroup
@@ -75,6 +72,9 @@ public class MCQManager : MonoBehaviour
 
     public void UnloadThisScene(MCQButton answer)
     {
+        foreach(var button in buttons)
+            { button.gameObject.SetActive(false); }
+
         if(answer.CorrectAnswer)
             { puzzleManager.UnloadPuzzle(true); }
         else
