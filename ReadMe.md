@@ -1,6 +1,6 @@
 # Michael's Sample Scripts
 
-This repository is just a small sampling of scripts from a project I'm working on. It contains scripts for passing data back and forth to Azure Functions/Storage, and a few small puzzles I've designed/scripted. While they don't necessary paint the whole picture of the project themselves, hopefully they will give a good indication of how I work.
+This repository is just a small sampling of scripts from a project I'm working on. It contains scripts for passing data back and forth to Azure Functions/Storage, Authentication management via PlayFab and Azure, and a few small puzzles I've designed/scripted. While they don't necessary paint the whole picture of the project themselves, hopefully they will give a good indication of how I work.
 
 
 
