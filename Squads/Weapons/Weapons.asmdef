@@ -1,0 +1,17 @@
+{
+    "name": "Squads.Weapons",
+    "rootNamespace": "Squads.Weapons",
+    "references": [
+        "GUID:e85344632d66dfa40afa8bda732657a1",
+        "GUID:0a9d69fb99750f84f9828ece06125884"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

@@ -1,0 +1,16 @@
+{
+    "name": "Squads.Environment",
+    "rootNamespace": "Squads.Environment",
+    "references": [
+        "GUID:e85344632d66dfa40afa8bda732657a1"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
