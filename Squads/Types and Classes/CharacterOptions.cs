@@ -7,21 +7,30 @@ namespace Squads
 
         public enum LocomotionTypes
         {
+            None,
             LocomotionBasic,
             FlyingBasic
         }
 
         public enum CameraControlTypes
         {
-            Basic,
+            None,
+            CameraControlBasic,
             NoAim,
             FlyingDrone
+        }
 
+        public enum HandControlTypes
+        {
+            None,
+            TwoHandBasic,
+            DroneClaws
         }
 
         public enum WeaponControlTypes
         {
-            FirearmBasic,
+            None,
+            FirearmControlBasic,
             Akimbo,
             MeleeBasic
         }
@@ -36,11 +45,17 @@ namespace Squads
             MeleeLong = 8,
             Firearms = OneHand | TwoHand,
             Melee = MeleeShort | MeleeLong,
-            All = 15,
+            All = OneHand | TwoHand | MeleeShort | MeleeLong,
+        }
+
+        public enum InteractorTypes
+        {
+            None,
+            InteractBasic
         }
 
         [Flags]
-        public enum Interact
+        public enum InteractAbilities
         {
             None = 0,
             Door = 1,
@@ -48,7 +63,20 @@ namespace Squads
             WallButton = 4,
             Hack = 8,
             Search = 16,
-            All = Door | Keypad | Hack | Search,
+            All = Door | Keypad | WallButton | Hack | Search,
+        }
+
+        public enum ImpactMaterial
+        {
+            None,
+            Metal,
+            Flesh
+        }
+
+        public enum Team
+        {
+            Own,
+            Opponent
         }
 
     #endregion

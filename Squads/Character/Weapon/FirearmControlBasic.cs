@@ -9,7 +9,7 @@ namespace Squads.CharacterElements
 {   
     [RequireComponent(typeof(Character))]
     [RequireComponent(typeof(TwoHandBehaviour))]
-    public class FirearmControlBasic : MonoBehaviour
+    public class FirearmControlBasic : WeaponControl
     {
         #region Variables
 

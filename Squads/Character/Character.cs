@@ -10,15 +10,17 @@ namespace Squads.CharacterElements
     {
         #region Variables
             
-            [SerializeField] private string characterName;
-            [SerializeField] private TeamColor team;
-            [SerializeField] private ImpactMaterial impactMaterial;
             [SerializeField] private CinemachineFreeLook cinemachineFreeLookCamera;
             
-            // Character Stats
-            private int startingHealth;
-            private int health;
-            private bool isCharacterActive;
+            [Header("Character Stats")]
+            [SerializeField] private string characterName;
+            [SerializeField] private Team team;
+            [SerializeField] private ImpactMaterial impactMaterial;
+            [SerializeField] private int startingHealth;
+
+            [Header("Match Variables")]
+            [SerializeField] private int health;
+            [SerializeField] private bool isCharacterActive;
 
             // Events
             public event Action EnableInput;
@@ -29,7 +31,7 @@ namespace Squads.CharacterElements
             /// </summary>
             public bool IsCharacterActive { get => isCharacterActive; }
             public string CharacterName { get => characterName; }
-            public TeamColor Team { get => team; }
+            public Team Team { get => team; }
             public int Health { get => health; }
 
 		#endregion
@@ -68,7 +70,7 @@ namespace Squads.CharacterElements
             DisableInput?.Invoke();
         }
 
-		public void Hit(int damage, out ImpactMaterial impactMaterial, TeamColor damagingTeam = TeamColor.None)
+		public void Hit(int damage, out ImpactMaterial impactMaterial, Team damagingTeam = Team.Opponent)
 		{
             impactMaterial = this.impactMaterial;
             
@@ -76,5 +78,17 @@ namespace Squads.CharacterElements
 
             if(health > 0) health = Mathf.Clamp(health - damage, 0, startingHealth);
         }
+
+        public void LoadCharacterData(CharacterDataModel characterToLoad)
+        {
+            characterName = characterToLoad.CharacterName;
+            team = Team.Own;
+            impactMaterial = characterToLoad.CharacterSO.ImpactMaterial;
+            startingHealth = characterToLoad.StartingHealth;
+
+        }
+
+        
 	}
+
 }

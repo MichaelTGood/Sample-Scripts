@@ -24,12 +24,20 @@ namespace Squads.CharacterElements
             private Transform leftHandPrevious;
 
             // States
+            private bool hasHandPlacements = true;
             private bool isLerping;
 
         #endregion
 
+        private void Awake()
+        {
+            if(rightHandSync == null || leftHandSync == null) hasHandPlacements = false;
+        }
+
         private void Update()
         {
+            if(!hasHandPlacements) return;
+
             if(!isLerping)
             {
                 MaintainHandPosition();
@@ -74,49 +82,29 @@ namespace Squads.CharacterElements
 
             timer = 0;
             timerLength = transitionLength;
+            hasHandPlacements = true;
             isLerping = true;
         }
 
-        public override void NewHandsPlacement(Transform newRightHand, Transform newLeftHand)
-        {
-            NewHandsPlacement(newRightHand, newLeftHand, defaultLerpTime);
-        }
+		public override void NewHandsPlacement(Transform newRightHand, Transform newLeftHand) => NewHandsPlacement(newRightHand, newLeftHand, defaultLerpTime);
 
 
-		public override void NewRightHandPlacement(Transform newRightHand, float transitionLength)
-		{
-			NewHandsPlacement(newRightHand, leftHandSync, transitionLength);
-		}
+		public override void NewRightHandPlacement(Transform newRightHand, float transitionLength) => NewHandsPlacement(newRightHand, leftHandSync, transitionLength);
 
-		public override void NewRightHandPlacement(Transform newRightHand)
-		{
-			NewHandsPlacement(newRightHand, leftHandSync, defaultLerpTime);
-		}
+		public override void NewRightHandPlacement(Transform newRightHand) => NewHandsPlacement(newRightHand, leftHandSync, defaultLerpTime);
 
 
-		public override void NewLeftHandPlacement(Transform newLeftHand, float transitionLength)
-		{
-            NewHandsPlacement(rightHandSync, newLeftHand, transitionLength);
-		}
+		public override void NewLeftHandPlacement(Transform newLeftHand, float transitionLength) => NewHandsPlacement(rightHandSync, newLeftHand, transitionLength);
 
-		public override void NewLeftHandPlacement(Transform newLeftHand)
-		{
-            NewHandsPlacement(rightHandSync, newLeftHand, defaultLerpTime);
-		}
+		public override void NewLeftHandPlacement(Transform newLeftHand) => NewHandsPlacement(rightHandSync, newLeftHand, defaultLerpTime);
 
 
-		public override void NewOffHandPlacement(Transform newOffHand, float transitionLength)
-		{
-            NewHandsPlacement(rightHandSync, newOffHand, transitionLength);
-		}
+		public override void NewOffHandPlacement(Transform newOffHand, float transitionLength) => NewHandsPlacement(rightHandSync, newOffHand, transitionLength);
 
-		public override void NewOffHandPlacement(Transform newOffHand)
-		{
-            NewHandsPlacement(rightHandSync, newOffHand, defaultLerpTime);
-		}
-	
+		public override void NewOffHandPlacement(Transform newOffHand) => NewHandsPlacement(rightHandSync, newOffHand, defaultLerpTime);
 
-        public override void ReturnToPreviousHandsPlacement(float transitionLength)
+
+		public override void ReturnToPreviousHandsPlacement(float transitionLength)
         {
             Transform tempRight = rightHandSync;
             Transform tempLeft = leftHandSync;
@@ -132,10 +120,7 @@ namespace Squads.CharacterElements
             isLerping = true;
         }
 
-        public override void ReturnToPreviousHandsPlacement()
-        {
-            ReturnToPreviousHandsPlacement(defaultLerpTime);
-        }
+		public override void ReturnToPreviousHandsPlacement() => ReturnToPreviousHandsPlacement(defaultLerpTime);
 
-    }
+	}
 }

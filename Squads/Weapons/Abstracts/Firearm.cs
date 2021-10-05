@@ -24,7 +24,7 @@ namespace Squads.Weapons
 
             [Header("Fire Effects")]
             [SerializeField] private ParticleSystem muzzleFlashParticle;
-            [SerializeField] private Light muzzleFlashLight;
+            [SerializeField] private Light[] muzzleFlashLights;
             [SerializeField] private TrailRenderer tracer;
 
             [Header("Audio")]
@@ -49,7 +49,7 @@ namespace Squads.Weapons
 
 		#endregion
 
-		public virtual void Fire(TeamColor team)
+		public virtual void Fire(Team team)
         {
             audioSource.Play();
             StartCoroutine(MuzzleFlash());
@@ -85,11 +85,17 @@ namespace Squads.Weapons
 		private IEnumerator MuzzleFlash()
         {
             muzzleFlashParticle.Emit(1);
-            muzzleFlashLight.gameObject.SetActive(true);
+            foreach(var light in muzzleFlashLights)
+            {
+                light.gameObject.SetActive(true);
+            }
 
             yield return new WaitForSeconds(muzzleFlashLightSpeed);
 
-            muzzleFlashLight.gameObject.SetActive(false);
+            foreach(var light in muzzleFlashLights)
+            {
+                light.gameObject.SetActive(false);
+            }
         }
 
         private void FireTracer()

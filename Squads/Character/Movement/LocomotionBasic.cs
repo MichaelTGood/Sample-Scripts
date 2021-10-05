@@ -6,7 +6,7 @@ using Squads.Inputs;
 
 namespace Squads.CharacterElements
 {
-    public class LocomotionBasic : MonoBehaviour
+    public class LocomotionBasic : Locomotion
     {
         #region Variables
 

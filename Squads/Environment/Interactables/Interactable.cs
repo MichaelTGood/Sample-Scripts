@@ -7,7 +7,7 @@ namespace Squads.Environment
     {
         #region Variables
 
-        public abstract Interact InteractType { get; }
+        public abstract InteractAbilities InteractType { get; }
         
         [SerializeField] private InteractAction action;
 
@@ -33,7 +33,7 @@ namespace Squads.Environment
         {
             int count = 0;
             
-            foreach(Interact interaction in Enum.GetValues(typeof(Interact)))
+            foreach(InteractAbilities interaction in Enum.GetValues(typeof(InteractAbilities)))
             {
 
                 if(interaction.ToString() == "None") continue;

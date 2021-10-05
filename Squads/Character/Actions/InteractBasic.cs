@@ -14,7 +14,7 @@ namespace Squads.CharacterElements
         #region Variables
 
             [Header("Character Properties")]
-            [SerializeField] private Interact allowedInteractions;
+            [SerializeField] private InteractAbilities allowedInteractions;
 
             [SerializeField] private TwoBoneIKConstraint rightHandConstraint;
             [SerializeField] private TwoBoneIKConstraint leftHandConstraint;
@@ -50,7 +50,7 @@ namespace Squads.CharacterElements
         animator.SetLayerWeight(anim_UpperBodyActionsLayer, 1);
         
         // Collect allowed Interactions, and connect them to animation triggers.
-        foreach(Interact interaction in Enum.GetValues(typeof(Interact)))
+        foreach(InteractAbilities interaction in Enum.GetValues(typeof(InteractAbilities)))
         {
             if(interaction.ToString() == "None" || interaction.ToString() == "All") continue;
             if(allowedInteractions.HasFlag(interaction))

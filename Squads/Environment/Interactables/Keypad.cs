@@ -8,7 +8,7 @@ namespace Squads.Environment
 	{
 		#region Variables
 
-		public override Interact InteractType { get => Squads.Interact.Keypad; }
+		public override InteractAbilities InteractType { get => Squads.InteractAbilities.Keypad; }
 
 
 		#endregion

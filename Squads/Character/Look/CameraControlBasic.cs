@@ -6,7 +6,7 @@ using UnityEngine.Animations.Rigging;
 
 namespace Squads.CharacterElements
 {
-    public class CameraControlBasic : MonoBehaviour
+    public class CameraControlBasic : CameraControl
     {
         #region Variables
 
@@ -15,6 +15,12 @@ namespace Squads.CharacterElements
             [SerializeField] private CinemachineFreeLook aimCamera;
             private CinemachineFreeLook currentCamera;
 
+            [Header("Aim Settings")]
+            [SerializeField] private int normalFOV = 40;
+            [SerializeField] private int aimFOV = 15;
+            [Range(1,100)]
+            [SerializeField] private float fovChangeSpeed = 2f;
+
             [Header("Camera Look Speeds")]
             [SerializeField] private Vector2 gamepadSpeed;
             [SerializeField] private Vector2 mouseSpeed;
@@ -22,8 +28,15 @@ namespace Squads.CharacterElements
             private const string gamepadScheme = "Gamepad";
             private const string mouseScheme = "Keyboard and Mouse";
 
+            private bool isAiming = false;
+            private bool adjustFOV;
             private Vector2 aimInput;
             private Character character;
+
+            private float cameraFOV {
+                get => characterCamera.m_Lens.FieldOfView;
+                set => characterCamera.m_Lens.FieldOfView = value;
+            }
 
         #endregion
 
@@ -37,19 +50,19 @@ namespace Squads.CharacterElements
             currentCamera = characterCamera;
 
             character = GetComponent<Character>();
-
         }
 
         private void OnEnable()
         {
-            MatchInputManager.Inputs.Character.Aim.started += _ => { SetAimingCamera(true); };
-            MatchInputManager.Inputs.Character.Aim.canceled += _ => { SetAimingCamera(false); };
+            isAiming = false;
+            MatchInputManager.Inputs.Character.Aim.started += SetAiming;
+            MatchInputManager.Inputs.Character.Aim.canceled += SetAiming;
         }
 
         private void OnDisable()
         {
-            MatchInputManager.Inputs.Character.Aim.started -= _ => { SetAimingCamera(true); };
-            MatchInputManager.Inputs.Character.Aim.canceled -= _ => { SetAimingCamera(false); };
+            MatchInputManager.Inputs.Character.Aim.started -= SetAiming;
+            MatchInputManager.Inputs.Character.Aim.canceled -= SetAiming;
         }
 
 
@@ -60,6 +73,8 @@ namespace Squads.CharacterElements
 
             aimInput = MatchInputManager.Inputs.Character.Look.ReadValue<Vector2>();
             Look();
+
+            if(adjustFOV) ChangeAimFOV(Time.deltaTime);
 
 		}
 
@@ -93,24 +108,31 @@ namespace Squads.CharacterElements
 			}
 		}
 		
-        private void SetAimingCamera(bool isAiming)
+        private void SetAiming(InputAction.CallbackContext ctx)
         {
-            if(isAiming)
-            {
-                aimCamera.m_XAxis.Value = characterCamera.m_XAxis.Value;
-                aimCamera.m_YAxis.Value = characterCamera.m_YAxis.Value;
-                aimCamera.Priority = 3;
-                currentCamera = aimCamera;
-            }
-            else
-            {
-                characterCamera.m_XAxis.Value = aimCamera.m_XAxis.Value;
-                characterCamera.m_YAxis.Value = aimCamera.m_YAxis.Value;
-                aimCamera.Priority = 0;
-                currentCamera = characterCamera;
-            }
+            isAiming = !isAiming;
+            adjustFOV = true;
         }
 
+        private void ChangeAimFOV(float deltaTime)
+        {
+            float fovAdjustment = deltaTime * fovChangeSpeed;
+            if(isAiming) fovAdjustment *= -1;
+
+            cameraFOV += fovAdjustment;
+
+            if(isAiming && cameraFOV <= aimFOV)
+            {
+                cameraFOV = aimFOV;
+                adjustFOV = false;
+            }
+            else if (!isAiming && cameraFOV >= normalFOV)
+            {
+                cameraFOV = normalFOV;
+                adjustFOV = false;
+            }
+
+        }
 
 
 	}

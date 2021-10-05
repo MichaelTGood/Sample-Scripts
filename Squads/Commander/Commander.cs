@@ -53,6 +53,13 @@ namespace Squads.CommanderElements
 
         }
 
+        public void AddCharacter(Character character)
+        {
+            if(characters.Contains(character)) return;
+
+            characters.Add(character);
+        }
+
         private void RemoveNullCharacters()
         {
             for (int i = characters.Count - 1; i >= 0; i--)
